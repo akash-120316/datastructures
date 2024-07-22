@@ -1,31 +1,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define n 5
-int front = -1;
-int rear = -1;
-int queue[n];
-void enqueue();
-void dequeue();
+int top = -1;
+int stack[n];
+void push();
+void pop();
 void disp();
-
 void main()
 {
     int choice = 0;
 
-    printf("1.insert\n 2.delete\n 3. display\n");
+    printf("1.push\n 2.pop\n 3. display\n");
     while (choice < 4)
     {
-        printf("\nenter choice\n");
+        printf("enter choice\n");
 
         scanf("%d", &choice);
         switch (choice)
         {
 
         case 1:
-            enqueue();
+            push();
             break;
         case 2:
-            dequeue();
+            pop();
             break;
         case 3:
             disp();
@@ -33,53 +31,36 @@ void main()
         }
     }
 }
-void enqueue()
+void push()
 {
     int ele;
     printf("enter element\n");
     scanf("%d", &ele);
-    if (rear == n - 1)
+    if (top == n - 1)
     {
         printf("overflow\n");
     }
-    else if (front == -1 && rear == -1)
-    {
-        front = rear = 0;
-        queue[rear] = ele;
-    }
     else
     {
-        rear++;
+        top++;
     }
-    queue[rear] = ele;
+    stack[top] = ele;
 }
-void dequeue()
+void pop()
 {
-
-    if (front == -1)
-    {
-        printf("underflow\n");
-    }
-    else if (front == rear)
-    {
-        front = rear = -1;
-    }
-    else
-    {
-        printf("element %d is deleted\n", queue[front]);
-        front++;
-    }
+    top--;
+    printf("element %d is deleted\n", stack[top + 1]);
 }
 void disp()
 {
-    if (front == -1)
+    if (top == -1)
     {
-        printf("empty\n");
+        printf("empty");
     }
     else
-        printf("elements present in the queue\n");
-    for (int i = front; i <= rear; i++)
+        printf("elements present in the stack\n");
+    for (int i = top; i >= 0; i--)
     {
-        printf("%d\t", queue[i]);
+        printf("%d\n", stack[i]);
     }
 }
