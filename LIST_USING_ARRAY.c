@@ -1,85 +1,94 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define n 5
-int front = -1;
-int rear = -1;
-int queue[n];
-void enqueue();
-void dequeue();
-void disp();
-
-void main()
+#define MAX_SIZE 50
+int arr[MAX_SIZE];
+int size = 0;
+int main()
 {
-    int choice = 0;
-
-    printf("1.insert\n 2.delete\n 3. display\n");
-    while (choice < 4)
+    int choice, val, pos;
+    while (1)
     {
-        printf("\nenter choice\n");
-
+        printf("\n -------- List Menu -----------\n");
+        printf("1.Insert at end \n");
+        printf("2.Insert at specified pos \n");
+        printf("3.Delete at specified pos \n");
+        printf("4.Display\n");
+        printf("5.Exit\n");
+        printf("\n--------------------------------------\n");
+        printf("Enter your choice:\t");
         scanf("%d", &choice);
         switch (choice)
         {
-
         case 1:
-            enqueue();
+            printf("Enter the data: ");
+            scanf("%d", &val);
+            arr[size++] = val;
             break;
         case 2:
-            dequeue();
+            if (size == MAX_SIZE)
+            {
+                printf("Array is full");
+                break;
+            }
+            int pos, val;
+            printf("Enter the pos (pos starts at 0):  ");
+            scanf("%d", &pos);
+            if (pos < 0 && pos >= size)
+            {
+                printf("Invalid position");
+                break;
+            }
+            printf("Enter the data: ");
+            scanf("%d", &val);
+            int i;
+
+            for (i = size - 1; i >= pos; i--)
+            {
+                arr[i + 1] = arr[i];
+            } // index of next ku current value
+
+            arr[pos] = val;
+            size++;
+            printf("Inserted %d at pos %d", val, pos);
+
             break;
         case 3:
-            disp();
+            if (size == 0)
+            {
+                printf("Array is empty");
+                break;
+            }
+
+            printf("Enter the pos: ");
+            scanf("%d", &pos);
+            if (pos < 0 || pos >= size)
+                printf("Invalid position");
+            else
+            {
+                int i;
+                int del = arr[pos];
+                for (i = pos; i < size; i++)
+                {
+                    arr[i] = arr[i + 1];
+                }
+                size--;
+                printf("Deleted %d at pos %d", del, pos);
+            }
+            break;
+
+        case 4:
+
+            for (i = 0; i < size; i++)
+                printf("%d\t", arr[i]);
+
+            break;
+        case 5:
+            exit(0);
+
+        default:
+            printf("Wrong choice");
             break;
         }
     }
-}
-void enqueue()
-{
-    int ele;
-    printf("enter element\n");
-    scanf("%d", &ele);
-    if (rear == n - 1)
-    {
-        printf("overflow\n");
-    }
-    else if (front == -1 && rear == -1)
-    {
-        front = rear = 0;
-        queue[rear] = ele;
-    }
-    else
-    {
-        rear++;
-    }
-    queue[rear] = ele;
-}
-void dequeue()
-{
-
-    if (front == -1)
-    {
-        printf("underflow\n");
-    }
-    else if (front == rear)
-    {
-        front = rear = -1;
-    }
-    else
-    {
-        printf("element %d is deleted\n", queue[front]);
-        front++;
-    }
-}
-void disp()
-{
-    if (front == -1)
-    {
-        printf("empty\n");
-    }
-    else
-        printf("elements present in the queue\n");
-    for (int i = front; i <= rear; i++)
-    {
-        printf("%d\t", queue[i]);
-    }
+    // read,update,search,length,deleteAtEnd,deleteFromBeginning,insertAtBeginning
 }
